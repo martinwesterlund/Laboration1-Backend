@@ -7,15 +7,15 @@ let root = {
 
 router.get('/', (req, res) => {
     if(req.query.username === 'admin' && req.query.password === 'password'){
-        res.sendFile('index.html', {root})
+        res.sendFile('index.html', root)
     } else{
-        res.sendFile('error.html', {root})
+        res.sendFile('error.html', root)
     }
    
 })
 
 router.get('/results', (req, res) => {
-    res.sendFile('results.html', {root})
+    res.sendFile('results.html', root)
 })
 
 

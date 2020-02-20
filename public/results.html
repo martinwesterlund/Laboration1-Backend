@@ -13,8 +13,12 @@
         h1 {
             color: red;
         }
+        h2 {
+            margin: 40px 0px 0px 0px;
+        }
         p {
             font-size: 20px;
+            margin: 2px;
         }
         .bar {
             background-color: blue;
@@ -36,6 +40,12 @@
     <h2>Särskilda partiet</h2>
     <p id='results-3'></p>
     <div class='bar' id="bar-3"></div>
+    <h2>Övriga röster</h2>
+    <p id='results-4'></p>
+    <div class='bar' id="bar-4"></div>
+    <h2>Ogiltiga röster</h2>
+    <p id='results-5'></p>
+    <div class='bar' id="bar-5"></div>
     <script>
         let socket = io.connect('http://localhost:8080/')
 
@@ -43,21 +53,29 @@
         let result1 = document.getElementById('results-1')
         let result2 = document.getElementById('results-2')
         let result3 = document.getElementById('results-3')
+        let result4 = document.getElementById('results-4')
+        let result5 = document.getElementById('results-5')
         let bar1 = document.getElementById('bar-1')
         let bar2 = document.getElementById('bar-2')
         let bar3 = document.getElementById('bar-3')
+        let bar4 = document.getElementById('bar-4')
+        let bar5 = document.getElementById('bar-5')
 
         socket.on('update results', (results) => {          
 
-            let totalVotes = results.party1 + results.party2 + results.party3
+            let totalVotes = results.party1 + results.party2 + results.party3 + results.party4 + results.party5
 
             result1.innerHTML = results.party1
             result2.innerHTML = results.party2
             result3.innerHTML = results.party3
+            result4.innerHTML = results.party4
+            result5.innerHTML = results.party5
 
             bar1.style.width = Math.floor((results.party1 / totalVotes) * 50) + '%'
             bar2.style.width = Math.floor((results.party2 / totalVotes) * 50) + '%'
             bar3.style.width = Math.floor((results.party3 / totalVotes) * 50) + '%'
+            bar4.style.width = Math.floor((results.party4 / totalVotes) * 50) + '%'
+            bar5.style.width = Math.floor((results.party5 / totalVotes) * 50) + '%'
         })
     </script>
 </body>
