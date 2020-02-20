@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="/socket.io/socket.io.js"></script>
+    
+</head>
+<body>
+    <p>Allmänna partiet</p>
+    <input type="number" id="result1" placeholder='Allmänna partiets röster'/>
+    <p>Speciella partiet</p>
+    <input type="number" id="result2" placeholder='Speciella partiets röster'/>
+    <p>Särskilda partiet</p>
+    <input type="number" id="result3" placeholder='Särskilda partiets röster'/><br><br>
+    
+    <button id="send-result">Skicka resultatet</button>
+    <script>
+        let socket = io.connect('http://localhost:8080')
+
+        // Hanterar DOM-element-objekt
+        let result1 = document.getElementById('result1')
+        let result2 = document.getElementById('result2')
+        let result3 = document.getElementById('result3')
+        let btn = document.getElementById('send-result')
+
+        // Skapar ett event till knappen som vid klick skickar värdena som rapporteringsansvarig skrivit in i fälten
+        btn.addEventListener('click', () => {
+            socket.emit('send result', {
+                result1 : parseInt(result1.value),
+                result2 : parseInt(result2.value),
+                result3 : parseInt(result3.value)
+            })
+            btn.style.display = 'none'
+        })
+
+        
+    </script>
+</body>
+</html>
