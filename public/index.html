@@ -11,17 +11,21 @@
             font-family: Verdana, Geneva, Tahoma, sans-serif;
             font-size: 20px;
         }
+
         label {
             font-size: 24px;
         }
-        select, input, button {
+
+        select,
+        input,
+        button {
             font-size: 20px;
         }
     </style>
 </head>
 
 <body>
-    <label for="cars">Välj din valstuga:</label>
+    <label for="districts">Välj din valstuga:</label>
 
     <select id='districts'>
         <option value="Valstuga Nord">Valstuga Nord</option>
@@ -53,11 +57,11 @@
         let btn = document.getElementById('send-result')
         let votingDistrict = document.getElementById('districts')
 
-        // Skapar ett event till knappen som vid klick skickar värdena som rapporteringsansvarig skrivit in i fälten
+        // Skapar ett event till knappen som vid klick skickar värdena + tid som rapporteringsansvarig skrivit in i fälten
         btn.addEventListener('click', () => {
-            console.log(votingDistrict.value)
             socket.emit('send result', {
-                
+                lastDistrict: votingDistrict.value,
+                time: Date(),
                 result1: parseInt(result1.value),
                 result2: parseInt(result2.value),
                 result3: parseInt(result3.value),

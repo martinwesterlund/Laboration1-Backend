@@ -7,19 +7,23 @@
     <title>Resultat</title>
     <script src="/socket.io/socket.io.js"></script>
     <style>
-        body{
+        body {
             font-family: Verdana, Geneva, Tahoma, sans-serif;
         }
+
         h1 {
             color: red;
         }
+
         h2 {
             margin: 40px 0px 0px 0px;
         }
+
         p {
             font-size: 20px;
             margin: 2px;
         }
+
         .bar {
             background-color: blue;
             width: 0%;
@@ -46,6 +50,8 @@
     <h2>Ogiltiga röster</h2>
     <p id='results-5'></p>
     <div class='bar' id="bar-5"></div>
+    <h2>Senaste rapporten inkom från: <h3 id='lastDistrict'></h3> <h3 id='time'></h3>
+    </h2>
     <script>
         let socket = io.connect('http://localhost:8080/')
 
@@ -55,27 +61,35 @@
         let result3 = document.getElementById('results-3')
         let result4 = document.getElementById('results-4')
         let result5 = document.getElementById('results-5')
+        let lastDistrict = document.getElementById('lastDistrict')
+        let time = document.getElementById('time')
         let bar1 = document.getElementById('bar-1')
         let bar2 = document.getElementById('bar-2')
         let bar3 = document.getElementById('bar-3')
         let bar4 = document.getElementById('bar-4')
         let bar5 = document.getElementById('bar-5')
 
-        socket.on('update results', (results) => {          
-
+        socket.on('update results', (results) => {
+            // Räknar ihop totalt antal röster
             let totalVotes = results.party1 + results.party2 + results.party3 + results.party4 + results.party5
 
+            // Tilldelar DOM-elementen de nya värdena
             result1.innerHTML = results.party1
             result2.innerHTML = results.party2
             result3.innerHTML = results.party3
             result4.innerHTML = results.party4
             result5.innerHTML = results.party5
 
+            // Räknar ut längden på stapeln (Om ett parti fått alla rösterna så ska stapeln täcka upp 50% av fönstrets bredd. Tyckte det blev visuellt tydligast så)
             bar1.style.width = Math.floor((results.party1 / totalVotes) * 50) + '%'
             bar2.style.width = Math.floor((results.party2 / totalVotes) * 50) + '%'
             bar3.style.width = Math.floor((results.party3 / totalVotes) * 50) + '%'
             bar4.style.width = Math.floor((results.party4 / totalVotes) * 50) + '%'
             bar5.style.width = Math.floor((results.party5 / totalVotes) * 50) + '%'
+
+            // Gör så att den senast rapporterande valstugan visas
+            lastDistrict.innerHTML = results.lastDistrict
+            time.innerHTML = results.time
         })
     </script>
 </body>

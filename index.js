@@ -16,13 +16,15 @@ io.on('connection', (socket) => {
     
     // Lyssnar på eventet 'send results' som kommer från rapporteringssidorna
     socket.on('send result', (data) => {
+        results.lastDistrict = data.lastDistrict
+        results.time = data.time
         results.party1 += data.result1
         results.party2 += data.result2
         results.party3 += data.result3
         results.party4 += data.result4
         results.party5 += data.result5
 
-        //Skriver över resultatet till fil
+        //Skriver över det nya resultatet till fil
         fs.writeFile('./results.json', JSON.stringify(results), (err) => {
             if(err){
                 console.log(err)
